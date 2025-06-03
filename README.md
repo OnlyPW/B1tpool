@@ -1,4 +1,4 @@
-# Litecoin Space
+# B1tpool B1t blockchain visualizer and explorer
 
 <br>
 
@@ -18,7 +18,7 @@ The easiest way to run B1tpool is using Docker:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/B1tpool.git
+git clone https://github.com/OnlyPW/B1tpool.git
 cd B1tpool
 
 # Copy and configure the sample config
