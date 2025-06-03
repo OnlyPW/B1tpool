@@ -24,9 +24,9 @@ export function calcDifficultyAdjustment(
   network: string,
   latestBlockTimestamp: number,
 ): DifficultyAdjustment {
-  const EPOCH_BLOCK_LENGTH = 2016; // Litecoin mainnet
-  const BLOCK_SECONDS_TARGET = 150; // Litecoin mainnet (2.5min * 60)
-  const TESTNET_MAX_BLOCK_SECONDS = 1200; // Litecoin testnet
+  const EPOCH_BLOCK_LENGTH = 2016; // Bitcoin/Litecoin default, verify for Bit if different
+  const BLOCK_SECONDS_TARGET = 60; // Bit mainnet (1min * 60)
+  const TESTNET_MAX_BLOCK_SECONDS = 1200; // Litecoin testnet, adjust if Bit testnet is used and different
 
   const diffSeconds = Math.max(0, nowSeconds - DATime);
   const blocksInEpoch = (blockHeight >= 0) ? blockHeight % EPOCH_BLOCK_LENGTH : 0;

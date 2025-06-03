@@ -2,34 +2,30 @@
 
 <br>
 
-Litepool is the fully-featured mempool visualizer, explorer, and API service running at [litecoinspace.org](https://litecoinspace.org/).
+B1tpool is the fully-featured mempool visualizer, explorer, and API service for the B1t blockchain.
 
-It is an open-source project developed and operated for the benefit of the Litecoin community, with a focus on the emerging transaction fee market that is evolving Litecoin into a multi-layer ecosystem.
+It is an open-source project developed for the B1t community, providing comprehensive blockchain exploration and transaction analysis capabilities for the B1t network.
 
 # Installation Methods
 
-litepool can be self-hosted on a wide variety of your own hardware, ranging from a simple one-click installation on a Raspberry Pi full-node distro all the way to a robust production instance on a powerful FreeBSD server.
+B1tpool can be self-hosted on a wide variety of your own hardware, ranging from a simple installation on a full-node setup all the way to a robust production instance on a powerful server.
 
-**Most people should use a one-click install method.** Other install methods are meant for developers and others with experience managing servers.
+**Most people should use the Docker installation method.** Other install methods are meant for developers and others with experience managing servers.
 
-This is currently being worked on...
+## Docker Installation
 
-<!-- <a id="one-click-installation"></a>
-## One-Click Installation
+The easiest way to run B1tpool is using Docker:
 
-Mempool can be conveniently installed on the following full-node distros:
-- [Umbrel](https://github.com/getumbrel/umbrel)
-- [RaspiBlitz](https://github.com/rootzoll/raspiblitz)
-- [RoninDojo](https://code.samourai.io/ronindojo/RoninDojo)
-- [myNode](https://github.com/mynodebtc/mynode)
-- [Start9](https://github.com/Start9Labs/embassy-os)
+```bash
+# Clone the repository
+git clone https://github.com/your-username/B1tpool.git
+cd B1tpool
 
-**We highly recommend you deploy your own Mempool instance this way.** No matter which option you pick, you'll be able to get your own fully-sovereign instance of Mempool up quickly without needing to fiddle with any settings. -->
+# Copy and configure the sample config
+cp backend/mempool-config.sample.json backend/mempool-config.json
+# Edit the config file with your B1t node credentials
+nano backend/mempool-config.json
 
-## Advanced Installation Methods
-
-Litepool can be installed in other ways too, but we only recommend doing so if you're a developer, have experience managing servers, or otherwise know what you're doing.
-
-- See the [`docker/`](./docker/) directory for instructions on deploying Litepool with Docker.
-- See the [`backend/`](./backend/) and [`frontend/`](./frontend/) directories for manual install instructions oriented for developers.
-- See the [`production/`](./production/) directory for guidance on setting up a more serious Litepool instance designed for high performance at scale.
+# Start with Docker
+docker-compose up -d
+```

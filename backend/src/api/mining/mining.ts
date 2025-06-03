@@ -117,7 +117,7 @@ class Mining {
       poolsStatistics['lastEstimatedHashrate'] = await bitcoinClient.getNetworkHashPs(totalBlock24h);
     } catch (e) {
       poolsStatistics['lastEstimatedHashrate'] = 0;
-      logger.debug('Bitcoin Core is not available, using zeroed value for current hashrate', logger.tags.mining);
+      logger.warn(`Failed to call getNetworkHashPs (totalBlock24h: ${totalBlock24h}). Error: ${(e instanceof Error ? e.message : e)}`, logger.tags.mining);
     }
 
     return poolsStatistics;
@@ -148,7 +148,8 @@ class Mining {
     try {
       currentEstimatedHashrate = await bitcoinClient.getNetworkHashPs(totalBlock24h);
     } catch (e) {
-      logger.debug('Bitcoin Core is not available, using zeroed value for current hashrate', logger.tags.mining);
+      logger.warn(`Failed to call getNetworkHashPs (totalBlock24h: ${totalBlock24h}). Error: ${(e instanceof Error ? e.message : e)}`, logger.tags.mining);
+      // currentEstimatedHashrate bleibt 0
     }
 
     return {
@@ -228,8 +229,15 @@ class Mining {
 
         const blockStats: any = await BlocksRepository.$blockCountBetweenTimestamp(
           null, fromTimestamp / 1000, toTimestamp / 1000);
-        const lastBlockHashrate = await bitcoinClient.getNetworkHashPs(blockStats.blockCount,
+        
+        let lastBlockHashrate = 0;
+        try {
+          lastBlockHashrate = await bitcoinClient.getNetworkHashPs(blockStats.blockCount,
           blockStats.lastBlockHeight);
+        } catch (e) {
+          logger.warn(`Failed to call getNetworkHashPs (blockStats.blockCount: ${blockStats.blockCount}, blockStats.lastBlockHeight: ${blockStats.lastBlockHeight}). Error: ${(e instanceof Error ? e.message : e)}`, logger.tags.mining);
+          // lastBlockHashrate bleibt 0
+        }
 
         let pools = await PoolsRepository.$getPoolsInfoBetween(fromTimestamp / 1000, toTimestamp / 1000);
         const totalBlocks = pools.reduce((acc, pool) => acc + pool.blockCount, 0);
@@ -328,9 +336,17 @@ class Mining {
 
         const blockStats: any = await BlocksRepository.$blockCountBetweenTimestamp(
           null, fromTimestamp / 1000, toTimestamp / 1000);
-        const lastBlockHashrate = blockStats.blockCount === 0 ? 0 : await bitcoinClient.getNetworkHashPs(blockStats.blockCount,
+        
+        let lastBlockHashrate = 0;
+        try {
+          lastBlockHashrate = await bitcoinClient.getNetworkHashPs(blockStats.blockCount,
           blockStats.lastBlockHeight);
+        } catch (e) {
+          logger.warn(`Failed to call getNetworkHashPs (blockStats.blockCount: ${blockStats.blockCount}, blockStats.lastBlockHeight: ${blockStats.lastBlockHeight}). Error: ${(e instanceof Error ? e.message : e)}`, logger.tags.mining);
+          // lastBlockHashrate bleibt 0
+        }
 
+        if (lastBlockHashrate > 0) {
         hashrates.push({
           hashrateTimestamp: toTimestamp / 1000,
           avgHashrate: lastBlockHashrate,
@@ -338,6 +354,7 @@ class Mining {
           share: 1,
           type: 'daily',
         });
+        }
 
         if (hashrates.length > 10) {
           newlyIndexed += hashrates.length;

@@ -1,1 +1,0 @@
-@reboot /usr/local/bin/litecoind >/dev/null 2>&1

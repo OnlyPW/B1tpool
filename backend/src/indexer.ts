@@ -25,22 +25,13 @@ class Indexer {
   public async checkAvailableCoreIndexes(): Promise<void> {
     const updatedCoreIndexes: CoreIndex[] = [];
 
-    const indexes: any = await bitcoinClient.getIndexInfo();
-    for (const indexName in indexes) {
-      const newState = {
-        name: indexName,
-        synced: indexes[indexName].synced,
-        best_block_height: indexes[indexName].best_block_height,
-      };
-      logger.info(`Core index '${indexName}' is ${indexes[indexName].synced ? 'synced' : 'not synced'}. Best block height is ${indexes[indexName].best_block_height}`);      
-      updatedCoreIndexes.push(newState);
-
-      if (indexName === 'coinstatsindex' && newState.synced === true) {
-        const previousState = this.isCoreIndexReady('coinstatsindex');
-        // if (!previousState || previousState.synced === false) {
-          this.runSingleTask('coinStatsIndex');
-        // }
-      }
+    try {
+      // Bit unterstützt kein getIndexInfo, daher überspringen wir dies
+      logger.info(`Überspringe getIndexInfo-Aufruf, da Bit diese Funktion nicht unterstützt.`);
+      // Wir nehmen an, dass keine speziellen Core-Indizes verfügbar sind
+    } catch (e) {
+      logger.warn(`Failed to call getIndexInfo. Assuming no special core indexes are available. Error: ${(e instanceof Error ? e.message : e)}`);
+      // this.coreIndexes bleibt leer, wenn der Aufruf fehlschlägt
     }
 
     this.coreIndexes = updatedCoreIndexes;

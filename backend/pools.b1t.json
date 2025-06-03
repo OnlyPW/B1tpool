@@ -1,0 +1,99 @@
+[
+  {
+    "id": 1,
+    "name": "Cminors-Pools",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "Cminors-Pools"
+    ],
+    "addresses": [
+      "BKru3jnUR9bGNSRxcMUUELTNdA1E3LvXzH"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "GoodLuckyMining",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "GoodLuckyMining",
+      "KeepVeryLuckyMining"
+    ],
+    "addresses": [
+      "B7vW4S4a9gxxwQLtPJsFDqiU6xxVUJv9M6",
+      "BAFkjq4CwhveQtxzG2BrCBWnrttMr6MJVB",
+      "BGWej51Ehjz2RFPEdvpTnUPZef7uuhaGxW",
+      "BPQFsrxoMqzei8q5mPBQ3ALND5ogbQMV9R"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Hash-Hut.net",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "Hash-Hut.net",
+      "hash-hut.net"
+    ],
+    "addresses": [
+      "BSsoYEGwCSy1axGXxr31xToz4LjmgLWupm"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "LSoftware",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "LSoftware"
+    ],
+    "addresses": [
+      "BE9WrmizrmC1BNURB33k2pc3qv1uYxiqvo"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Mining-Dutch",
+    "link": "https://www.mining-dutch.nl/",
+    "tags": [
+      "/Mining-Dutch/",
+      "Mining-Dutch"
+    ],
+    "addresses": [
+      "BJ4x7jf3Nuc2Vn7X2RxZuLFKWkWsrNHngT"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Miningcore",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "Miningcore"
+    ],
+    "addresses": [
+      "B8Vhhx6pfN8ARfSAt5qAavYLRJYf8CcMdr",
+      "B8kNEeaTXWjNYFqpToeJKhdjmrULhrz1jS",
+      "BHw3RXVVfN8FyhJxyvKKaxbzveGvC1xdEb"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "nodeStratum",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "nodeStratum"
+    ],
+    "addresses": [
+      "BL2Vt1NWAh12TtirB5wSWyyJqz6tpRZAoE"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "ZergPool",
+    "link": "MANUALLY_ADD_LINK",
+    "tags": [
+      "ZergPool",
+      "zergpool.com"
+    ],
+    "addresses": [
+      "BQxqZVGuJhjFC9Q5GvG6Ue61YTCVXNGv4V"
+    ]
+  }
+]

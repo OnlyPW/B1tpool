@@ -81,6 +81,24 @@ import { FieldPacket, OkPacket, PoolOptions, ResultSetHeader, RowDataPacket } fr
     }
     return this.pool;
   }
+
+  public async closePool(): Promise<void> {
+    if (this.pool) {
+      try {
+        await this.pool.end();
+        this.pool = null;
+        logger.info('Database pool closed successfully.');
+      } catch (error) {
+        let errorMessage = 'Error closing database pool: ';
+        if (error instanceof Error) {
+          errorMessage += `${error.message}${error.stack ? '\\nStack: ' + error.stack : ''}`;
+        } else {
+          errorMessage += String(error);
+        }
+        logger.err(errorMessage);
+      }
+    }
+  }
 }
 
 export default new DB();

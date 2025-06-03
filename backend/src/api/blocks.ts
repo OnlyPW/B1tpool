@@ -200,6 +200,8 @@ class Blocks {
       extras.segwitTotalTxs = 0;
       extras.segwitTotalSize = 0;
       extras.segwitTotalWeight = 0;
+      // Ensure tx_count is set for the genesis block
+      (blk as BlockExtended).tx_count = block.tx_count || 1;
     } else {
       const stats: IBitcoinApi.BlockStats = await bitcoinClient.getBlockStats(block.id);
       let feeStats = {
@@ -222,6 +224,8 @@ class Blocks {
       extras.segwitTotalTxs = stats.swtxs;
       extras.segwitTotalSize = stats.swtotal_size;
       extras.segwitTotalWeight = stats.swtotal_weight;
+      // Ensure tx_count is taken from block stats, as it's reliable
+      (blk as BlockExtended).tx_count = stats.txs;
     }
 
     if (Common.blocksSummariesIndexingEnabled()) {

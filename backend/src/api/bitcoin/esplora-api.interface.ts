@@ -5,6 +5,7 @@ export namespace IEsploraApi {
     locktime: number;
     size: number;
     weight: number;
+    vsize?: number;
     fee: number;
     vin: Vin[];
     vout: Vout[];

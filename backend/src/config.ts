@@ -143,8 +143,8 @@ const defaults: IConfig = {
     'USER_AGENT': 'mempool',
     'STDOUT_LOG_MIN_PRIORITY': 'debug',
     'AUTOMATIC_BLOCK_REINDEXING': false,
-    'POOLS_JSON_URL': 'https://raw.githubusercontent.com/litecoin-foundation/mining-pools-ltc/master/pools.json',
-    'POOLS_JSON_TREE_URL': 'https://api.github.com/repos/litecoin-foundation/mining-pools-ltc/git/trees/master',
+    'POOLS_JSON_URL': '',
+    'POOLS_JSON_TREE_URL': '',
     'AUDIT': false,
     'ADVANCED_GBT_AUDIT': false,
     'ADVANCED_GBT_MEMPOOL': false,
@@ -225,8 +225,8 @@ const defaults: IConfig = {
     'PASSWORD': ''
   },
   'EXTERNAL_DATA_SERVER': {
-    'MEMPOOL_API': 'https://litecoinspace.org/api/v1',
-    'MEMPOOL_ONION': 'http://TODO: litecoin.onion/api/v1',
+    'MEMPOOL_API': '',
+    'MEMPOOL_ONION': '',
   },
   'MAXMIND': {
     'ENABLED': false,

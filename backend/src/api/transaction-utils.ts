@@ -37,23 +37,53 @@ class TransactionUtils {
     return this.extendTransaction(transaction);
   }
 
-  private extendTransaction(transaction: IEsploraApi.Transaction): TransactionExtended {
-    // @ts-ignore
-    if (transaction.vsize) {
-      // @ts-ignore
-      return transaction;
+  private extendTransaction(rpcTxData: IEsploraApi.Transaction): TransactionExtended {
+    console.log("transaction-utils.ts: extendTransaction called. Input rpcTxData:", JSON.stringify(rpcTxData)); // DEBUG
+
+    const txExtended: Partial<TransactionExtended> = {
+      ...rpcTxData,
+      weight: 0, // Initialisiere weight, wird unten überschrieben
+    };
+
+    // 1. Stelle sicher, dass wir ein numerisches vsize haben
+    // rpcTxData.vsize sollte direkt vom Core RPC Call kommen, wenn dieser vsize liefert.
+    if (rpcTxData.vsize !== undefined && rpcTxData.vsize !== null) {
+      txExtended.vsize = Number(rpcTxData.vsize);
+      console.log("transaction-utils.ts: Case 1: vsize from rpcTxData.vsize", txExtended.vsize); // DEBUG
+    } else if (rpcTxData.weight !== undefined && rpcTxData.weight !== null && Number(rpcTxData.weight) > 0) { // Fallback: vsize aus weight berechnen
+      txExtended.vsize = Math.round(Number(rpcTxData.weight) / 4);
+      console.log("transaction-utils.ts: Case 2: vsize from rpcTxData.weight", txExtended.vsize, "rpcTxData.weight", rpcTxData.weight); // DEBUG
+    } else {
+      txExtended.vsize = 0; // Fallback, falls beides fehlt
+      // Wenn weder vsize noch weight vorhanden sind, versuchen wir es aus size zu schätzen (nicht ideal für SegWit)
+      if (rpcTxData.size !== undefined && rpcTxData.size !== null && txExtended.vsize === 0) {
+        txExtended.vsize = Number(rpcTxData.size); // Annahme: für nicht-segwit tx ist vsize ~ size
+        console.log("transaction-utils.ts: Case 3: vsize estimated from rpcTxData.size", txExtended.vsize); // DEBUG
+      }
     }
-    const feePerVbytes = Math.max(Common.isLiquid() ? 0.1 : 1,
-      (transaction.fee || 0) / (transaction.weight / 4));
-    const transactionExtended: TransactionExtended = Object.assign({
-      vsize: Math.round(transaction.weight / 4),
-      feePerVsize: feePerVbytes,
-      effectiveFeePerVsize: feePerVbytes,
-    }, transaction);
-    if (!transaction.status.confirmed) {
-      transactionExtended.firstSeen = Math.round((new Date().getTime() / 1000));
+
+    // 2. Berechne weight aus dem (jetzt gesetzten) vsize
+    txExtended.weight = txExtended.vsize * 4;
+    console.log("transaction-utils.ts: Calculated weight:", txExtended.weight, "from txExtended.vsize:", txExtended.vsize); // DEBUG
+
+    // 3. Berechne Gebühren pro VByte
+    if (txExtended.vsize > 0 && rpcTxData.fee !== undefined && rpcTxData.fee !== null) {
+      const feePerV = Number(rpcTxData.fee) / txExtended.vsize;
+      txExtended.feePerVsize = feePerV;
+      txExtended.effectiveFeePerVsize = feePerV; // Vereinfachung
+    } else {
+      txExtended.feePerVsize = 0;
+      txExtended.effectiveFeePerVsize = 0;
     }
-    return transactionExtended;
+    console.log("transaction-utils.ts: FeePerVsize:", txExtended.feePerVsize); // DEBUG
+
+    // 4. Setze firstSeen für Mempool-Transaktionen
+    if (!rpcTxData.status.confirmed) {
+      txExtended.firstSeen = Math.round((new Date().getTime() / 1000));
+    }
+
+    console.log("transaction-utils.ts: Final txExtended before return:", JSON.stringify(txExtended)); // DEBUG
+    return txExtended as TransactionExtended;
   }
 
   public hex2ascii(hex: string) {

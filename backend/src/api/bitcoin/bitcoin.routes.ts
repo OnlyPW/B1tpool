@@ -584,28 +584,87 @@ class BitcoinRoutes {
   }
 
   private async getRecentMempoolTransactions(req: Request, res: Response) {
-    const latestTransactions = Object.entries(mempool.getMempool())
-      .sort((a, b) => (b[1].firstSeen || 0) - (a[1].firstSeen || 0))
-      .slice(0, 10).map((tx) => Common.stripTransaction(tx[1]));
-
-    res.json(latestTransactions);
+    try {
+      // Direkt von der Node abfragen
+      const rawMempoolVerbose = await bitcoinClient.getRawMemPool(true);
+      
+      // Wenn keine Transaktionen im Mempool sind, leere Liste zurückgeben
+      if (!rawMempoolVerbose || Object.keys(rawMempoolVerbose).length === 0) {
+        return res.json([]);
+      }
+      
+      // Sortiere nach Zeit und nimm die neuesten 10
+      const latestTransactions = Object.entries(rawMempoolVerbose)
+        .map(([txid, txData]: [string, any]) => {
+          return {
+            txid,
+            fee: txData.fee * 1e8, // Umrechnung in Satoshi
+            vsize: txData.vsize || 0,
+            value: 0, // Wert müsste aus den Inputs/Outputs berechnet werden
+            time: txData.time * 1000 || Date.now(), // Unix-Timestamp in ms
+          };
+        })
+        .sort((a, b) => b.time - a.time)
+        .slice(0, 10);
+      
+      res.json(latestTransactions);
+    } catch (e) {
+      console.error('Fehler beim Abrufen der neuesten Mempool-Transaktionen:', e);
+      
+      // Fallback auf den alten Code
+      const latestTransactions = Object.entries(mempool.getMempool())
+        .sort((a, b) => (b[1].firstSeen || 0) - (a[1].firstSeen || 0))
+        .slice(0, 10).map((tx) => Common.stripTransaction(tx[1]));
+      
+      res.json(latestTransactions);
+    }
   }
 
   private async getMempool(req: Request, res: Response) {
-    const info = mempool.getMempoolInfo();
-    res.json({
-      count: info.size,
-      vsize: info.bytes,
-      total_fee: info.total_fee * 1e8,
-      fee_histogram: []
-    });
+    try {
+      // Direkt von der Node abfragen, statt auf den mempool.getMempoolInfo zu vertrauen
+      const rawMempoolVerbose = await bitcoinClient.getRawMemPool(true);
+      const rawMempool = await bitcoinClient.getRawMemPool(false);
+      
+      // Berechne die Gesamtgebühr und Größe
+      let totalFee = 0;
+      let totalVsize = 0;
+      
+      for (const txid in rawMempoolVerbose) {
+        if (rawMempoolVerbose[txid].fee) {
+          totalFee += rawMempoolVerbose[txid].fee;
+        }
+        if (rawMempoolVerbose[txid].vsize) {
+          totalVsize += rawMempoolVerbose[txid].vsize;
+        }
+      }
+      
+      res.json({
+        count: rawMempool.length,
+        vsize: totalVsize,
+        total_fee: totalFee * 1e8,
+        fee_histogram: []
+      });
+    } catch (e) {
+      console.error('Fehler beim Abrufen der Mempool-Daten:', e);
+      // Fallback auf den alten Code
+      const info = mempool.getMempoolInfo();
+      res.json({
+        count: info.size,
+        vsize: info.bytes,
+        total_fee: info.total_fee * 1e8,
+        fee_histogram: []
+      });
+    }
   }
 
   private async getMempoolTxIds(req: Request, res: Response) {
     try {
-      const rawMempool = await bitcoinApi.$getRawMempool();
+      // Direkt von der Node abfragen, statt den API-Wrapper zu verwenden
+      const rawMempool = await bitcoinClient.getRawMemPool(false);
       res.send(rawMempool);
     } catch (e) {
+      console.error('Fehler beim Abrufen der Mempool-TxIDs:', e);
       res.status(500).send(e instanceof Error ? e.message : e);
     }
   }

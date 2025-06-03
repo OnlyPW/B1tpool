@@ -51,6 +51,35 @@ class Server {
   constructor() {
     this.app = express();
 
+    // Graceful shutdown
+    const gracefulShutdown = (signal: string) => {
+      logger.info(`Received ${signal}. Shutting down gracefully...`);
+      if (this.server) {
+        this.server.close(async () => {
+          logger.info('HTTP server closed.');
+          if (config.DATABASE.ENABLED) {
+            await DB.closePool();
+          }
+          process.exit(0);
+        });
+      } else {
+        if (config.DATABASE.ENABLED) {
+          DB.closePool().finally(() => process.exit(0));
+        } else {
+          process.exit(0);
+        }
+      }
+
+      // Force shutdown after a timeout
+      setTimeout(() => {
+        logger.warn('Graceful shutdown timed out. Forcing exit.');
+        process.exit(1);
+      }, 10000); // 10 Sekunden Timeout
+    };
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT')); // Für Strg+C
+
     if (!config.MEMPOOL.SPAWN_CLUSTER_PROCS) {
       this.startServer();
       return;
@@ -140,9 +169,31 @@ class Server {
 
     this.server.listen(config.MEMPOOL.HTTP_PORT, () => {
       if (worker) {
-        logger.info(`Mempool Server worker #${process.pid} started`);
+        logger.info(`Mempool Server worker #${process.pid} started on port ${config.MEMPOOL.HTTP_PORT}`);
       } else {
         logger.notice(`Mempool Server is running on port ${config.MEMPOOL.HTTP_PORT}`);
+      }
+    });
+
+    this.server.on('error', (error: NodeJS.ErrnoException) => {
+      if (error.syscall !== 'listen') {
+        logger.err(`Unexpected server error: ${error.message}${error.stack ? '\nStack: ' + error.stack : ''}`);
+        process.exit(1);
+        return;
+      }
+      switch (error.code) {
+        case 'EACCES':
+          logger.err(`Port ${config.MEMPOOL.HTTP_PORT} requires elevated privileges. Exiting. Error: ${error.message}`);
+          process.exit(1);
+          break;
+        case 'EADDRINUSE':
+          logger.err(`Port ${config.MEMPOOL.HTTP_PORT} is already in use. Exiting. Error: ${error.message}`);
+          process.exit(1);
+          break;
+        default:
+          logger.err(`Unhandled server error on listen: ${error.code}. Exiting. Error: ${error.message}${error.stack ? '\nStack: ' + error.stack : ''}`);
+          process.exit(1);
+          break;
       }
     });
   }
