@@ -1,6 +1,6 @@
-# Litepool Frontend
+# B1tpool Frontend
 
-You can build and run the Litepool frontend and proxy to the production Litepool backend (for easier frontend development), or you can connect it to your own backend for a full Litepool development instance, custom deployment, etc.
+You can build and run the B1tpool frontend and proxy to the production B1tpool backend (for easier frontend development), or you can connect it to your own backend for a full B1tpool development instance, custom deployment, etc.
 
 Jump to a section in this doc:
 
@@ -10,20 +10,20 @@ Jump to a section in this doc:
 
 ## Quick Setup for Frontend Development
 
-If you want to quickly improve the UI, fix typos, or make other updates that don't require any backend changes, you don't need to set up an entire backend—you can simply run the Litepool frontend locally and proxy to the litecoinspace.org backend.
+If you want to quickly improve the UI, fix typos, or make other updates that don't require any backend changes, you don't need to set up an entire backend—you can simply run the B1tpool frontend locally and proxy to your B1t Core backend.
 
-### 1. Clone Litepool Repository
+### 1. Clone B1tpool Repository
 
-Get the latest Litepool code:
+Get the latest B1tpool code:
 
 ```
-git clone https://github.com/litecoin-foundation/ltcspace
+git clone https://github.com/OnlyPW/B1tpool
 cd litepool
 ```
 
 ### 2. Specify Website
 
-The same frontend codebase is used for https://litecoinspace.org and https://explorer.litecoinspace.org.
+The same frontend codebase is used for https://b1tpool.org and https://explorer.b1tpool.org.
 
 Configure the frontend for the site you want by running the corresponding command:
 
@@ -42,7 +42,7 @@ $ npm install
 $ npm run serve:local-prod
 ```
 
-The frontend will be available at http://localhost:4200/ and all API requests will be proxied to the production server at https://litecoinspace.org.
+The frontend will be available at http://localhost:4200/ and all API requests will be proxied to the production server at https://b1tpool.org.
 
 ### 4. Test
 
@@ -66,7 +66,7 @@ If all tests are green, submit your PR, and it will be reviewed by someone on th
 
 ## Manual Setup
 
-Set up the [Litepool backend](../backend/) first, if you haven't already.
+Set up the [B1tpool backend](../backend/) first, if you haven't already.
 
 ### 1. Build the Frontend
 
@@ -84,7 +84,7 @@ npm run build
 
 #### Development
 
-To run your local Litepool frontend with your local Litepool backend:
+To run your local B1tpool frontend with your local B1tpool backend:
 
 ```
 npm run serve
