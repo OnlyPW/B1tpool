@@ -1,4 +1,4 @@
-# Litecoin Space
+# B1tpool
 
 <br>
 
@@ -18,12 +18,12 @@ The easiest way to run B1tpool is using Docker:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/B1tpool.git
+git clone https://github.com/OnlyPW/B1tpool.git
 cd B1tpool
 
 # Copy and configure the sample config
 cp backend/mempool-config.sample.json backend/mempool-config.json
-# Edit the config file with your B1t node credentials
+# Edit the config file with your B1t Core node credentials
 nano backend/mempool-config.json
 
 # Start with Docker
