@@ -1,0 +1,63 @@
+<div class="container-xl">
+  <div class="text-center">
+    <br>
+    <img
+      [src]="officialMempoolSpace ? '/resources/mempool-space-logo-bigger.png' : '/resources/mempool-logo-bigger.png'"
+      style="width: 250px;height:63px;">
+    <br><br>
+
+    <h2>Privacy Policy</h2>
+    <h6>Updated: January 1, 2023</h6>
+
+    <br><br>
+
+    <div class="text-left">
+
+      <h4>INTRODUCTION</h4>
+      <p i18n="privacy-policy.introduction-text-official" *ngIf="officialMempoolSpace">The <a [href]="env.MEMPOOL_WEBSITE_URL">{{ env.MEMPOOL_WEBSITE_URL }}</a> website, their
+        server infrastructure (collectively, the "Website") are operated by the B1tpool project maintainers (the "B1tpool Project", "We", or "Us").</p>
+      <p *ngIf="!officialMempoolSpace">This website (the "Website") is an instance of the B1tpool explorer software, provided by an independent
+        member of the Bit community ("We" or "Us"). The B1tpool Project has no affiliation
+        with the operators of this unofficial instance.</p>
+      <p>We are committed to protecting and respecting your privacy. This Privacy Policy (together with our <a
+          routerLink="/terms-of-service">Terms of Service</a>) explains how we treat your personal data when you use our
+        Website.</p>
+
+      <h4>NO TRACKERS, NO COOKIES, NO JAVASCRIPT?</h4>
+      <p>Out of respect for the Bit community, this website does not use any third-party analytics, third-party
+        advertising, or third-party trackers of any kind.</p>
+      <p>We also do not make any external calls to any third-party service, except for optionally loading fonts from Google
+        Fonts for better readability and language support. This can be disabled in settings.</p>
+      <p>This website is a single-page application (SPA) that <b>requires JavaScript to function</b>. We understand some
+        users prefer to disable JavaScript for privacy, but this website is a data visualization tool that needs
+        JavaScript to dynamically load and display blockchain data.</p>
+      <p>Out of respect for the Bit community, this website does not use any first-party cookies, except to store
+        your preferred language and other display settings. These settings are stored locally in your browser and are not
+        sent to our servers.</p>
+
+      <h4>INFORMATION WE COLLECT</h4>
+      <p>When you access our Website, we may automatically collect standard server log information, such as your IP address,
+        browser type, operating system, access times, and referring website addresses. This information is used for system
+        administration, troubleshooting, and to ensure the security and integrity of our Website. Log files are deleted on
+        a regular basis (typically after 7 days).</p>
+      <p>If you use the search function on our Website, we may temporarily log your search queries to improve our search
+        functionality. These search logs are not tied to your IP address and are regularly deleted.</p>
+
+      <h4>TRUST YOUR OWN SELF-HOSTED B1tpool EXPLORER</h4>
+      <p>For maximum privacy, we recommend that you use your own self-hosted instance of the B1tpool explorer on
+        your own full node, such as with Umbrel, RaspiBlitz, myNode, etc.</p>
+      <p>Running your own instance of B1tpool ensures that your IP address and search queries are not shared with any
+        third party, including us. Many Bit fullnode distributions offer a one-click installation method. See our <a
+          href="https://github.com/YOUR_GITHUB_USER/B1tpool" target="_blank">GitHub repository</a> for more information on self-hosting.</p>
+
+      <br>
+
+      <p>EOF</p>
+
+    </div>
+
+  </div>
+
+  <br><br>
+
+</div>

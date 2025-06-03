@@ -1,0 +1,53 @@
+<app-master-page>
+  <div class="content statistics-page">
+    <h1 i18n="trademark-policy.title">Trademark Policy</h1>
+    <hr class="mt-3 mb-3">
+
+    <p i18n="trademark-policy.last-updated">Last Updated: January 1, 2023</p>
+
+    <p i18n="trademark-policy.introduction-text-official" *ngIf="officialMempoolSpace">This Trademark Policy applies to the use of trademarks owned by the B1tpool Project (referred to as "B1tpool",
+      "We", or "Us") in relation to the B1tpool software and the <a [href]="env.MEMPOOL_WEBSITE_URL">{{ env.MEMPOOL_WEBSITE_URL }}</a> website (the "Website").</p>
+    <p i18n="trademark-policy.introduction-text-unofficial" *ngIf="!officialMempoolSpace">This website (the "Website") is an instance of the B1tpool explorer software. This Trademark Policy outlines the
+      guidelines for using the B1tpool name and any associated logos if you are running an unofficial instance.</p>
+
+    <h4 i18n="trademark-policy.general-guidelines-title">GENERAL GUIDELINES FOR USE OF B1tpool TRADEMARKS</h4>
+    <p i18n="trademark-policy.general-guidelines-text-1">The B1tpool name and logos are trademarks of the B1tpool Project. We encourage the use of the B1tpool software
+      and the B1tpool name to refer to it, provided that such use is fair and does not mislead consumers.</p>
+    <p i18n="trademark-policy.general-guidelines-text-2">When referring to the software, please use the full name "B1tpool" where appropriate. You may use the name
+      "B1tpool" to truthfully describe your instance of the software, for example, "My B1tpool Instance" or "B1tpool
+      Explorer for Bit Testnet".</p>
+
+    <h4 i18n="trademark-policy.prohibited-uses-title">PROHIBITED USES</h4>
+    <p i18n="trademark-policy.prohibited-uses-text-1">You may not use the B1tpool trademarks in any way that:</p>
+    <ul>
+      <li i18n="trademark-policy.prohibited-use-1">Suggests affiliation, endorsement, or sponsorship by the B1tpool Project if none exists.</li>
+      <li i18n="trademark-policy.prohibited-use-2">Is likely to cause confusion among users as to the source or origin of goods or services.</li>
+      <li i18n="trademark-policy.prohibited-use-3">Disparages the B1tpool Project or its software.</li>
+      <li i18n="trademark-policy.prohibited-use-4">Is unlawful or in connection with unlawful activities.</li>
+    </ul>
+    <p i18n="trademark-policy.prohibited-uses-text-2">You may not register domain names, social media accounts, or other brand identifiers that are confusingly similar to
+      "B1tpool" or that incorporate the B1tpool trademarks in a way that suggests an official affiliation.</p>
+    <p i18n="trademark-policy.prohibited-uses-text-3">If you are running an unofficial instance, you must make it clear that your instance is not the official B1tpool
+      website. For example, by stating "This is an unofficial B1tpool instance for Bit."</p>
+
+    <h4 i18n="trademark-policy.logo-usage-title">LOGO USAGE</h4>
+    <p i18n="trademark-policy.logo-usage-text">If the B1tpool project provides official logos, you may use them to refer to the B1tpool software, provided such use
+      complies with this policy. Do not alter the logos in any way.</p>
+
+    <h4 i18n="trademark-policy.forks-title">FORKS AND MODIFIED VERSIONS</h4>
+    <p i18n="trademark-policy.forks-text-1">The B1tpool software is open source. You are free to fork and modify the software under the terms of its license.
+      However, if you distribute a modified version of the software, you should use a different name for your fork to
+      avoid confusion with the official B1tpool project, unless your modifications are minor and do not fundamentally
+      change the nature or branding of the software.</p>
+    <p i18n="trademark-policy.forks-text-2">If you maintain a fork with significant changes, you must not use the B1tpool name or logos in a way that implies
+      your fork is the official B1tpool project or is endorsed by it.</p>
+
+    <h4 i18n="trademark-policy.reporting-abuse-title">REPORTING TRADEMARK ABUSE</h4>
+    <p i18n="trademark-policy.reporting-abuse-text">If you become aware of any use of the B1tpool trademarks that violates this policy, please report it to us (e.g.,
+      via GitHub issues for the B1tpool project if applicable).</p>
+
+    <h4 i18n="trademark-policy.questions-title">QUESTIONS</h4>
+    <p i18n="trademark-policy.questions-text">If you have any questions about this Trademark Policy or how to use the B1tpool trademarks, please contact us.</p>
+
+  </div>
+</app-master-page>

@@ -1,0 +1,10 @@
+<h2 class="preview-header">
+  <ng-container *ngIf="{ val: network$ | async } as network">
+    <ng-container [ngSwitch]="network.val">
+      <ng-container *ngSwitchCase="'testnet'">Testnet</ng-container>
+      <ng-container *ngSwitchCase="'signet'">Signet</ng-container>
+      <span *ngSwitchDefault>Bit </span>
+    </ng-container>
+  </ng-container>
+  <ng-content></ng-content>
+</h2>

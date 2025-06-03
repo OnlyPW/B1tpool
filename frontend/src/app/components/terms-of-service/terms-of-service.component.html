@@ -1,0 +1,100 @@
+<div class="container-xl">
+  <div class="text-center">
+    <br />
+    <img
+      [src]="officialMempoolSpace ? '/resources/mempool-space-logo-bigger.png' : '/resources/mempool-logo-bigger.png'"
+      style="width: 250px;height:63px;">
+    <br /><br />
+
+    <h2>Terms of Service</h2>
+    <h6>Updated: January 1, 2023</h6>
+
+    <br><br>
+
+    <div class="text-left">
+
+      <p i18n="terms-of-service.introduction-text-official" *ngIf="officialMempoolSpace">The <a [href]="env.MEMPOOL_WEBSITE_URL">{{ env.MEMPOOL_WEBSITE_URL }}</a> website, their
+        server infrastructure (collectively, the "Website") are operated by the B1tpool project maintainers (the "B1tpool Project", "We", or "Us").</p>
+
+      <p *ngIf="!officialMempoolSpace">This website (the "Website") is an instance of the B1tpool explorer software, provided by an independent
+        member of the Bit community ("We" or "Us"). The B1tpool Project has no affiliation
+        with the operators of this unofficial instance.</p>
+
+      <h5>By accessing or using the Website, you agree to the following Terms of Service:</h5>
+
+      <br>
+
+      <h4>USE OF THE WEBSITE</h4>
+
+      <p>The Website provides information and data related to the Bit blockchain. This information is for general
+        informational purposes only. We do not provide financial advice, and you should not interpret any information on the
+        Website as such.</p>
+      <p>You agree not to use the Website in any way that is unlawful, or harms us or any other person or entity. You also
+        agree not to:</p>
+      <ul>
+        <li>Attempt to gain unauthorized access to any part of the Website or its systems.</li>
+        <li>Use any automated system, including without limitation "robots," "spiders," or "offline readers," to access the
+          Website in a manner that sends more request messages to our servers than a human can reasonably produce in the
+          same period by using a conventional on-line web browser.</li>
+        <li>Interfere with or disrupt the Website or servers or networks connected to the Website.</li>
+      </ul>
+
+      <br>
+
+      <h4>DISCLAIMER OF WARRANTIES</h4>
+
+      <p>The Website is provided on an "as is" and "as available" basis. We make no warranties, expressed or implied,
+        regarding the accuracy, reliability, or completeness of any information on the Website.</p>
+      <p>We disclaim all warranties, express or implied, including, but not limited to, implied warranties of
+        merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Website will be
+        uninterrupted, error-free, or free of viruses or other harmful components.</p>
+
+      <br>
+
+      <h4>LIMITATION OF LIABILITY</h4>
+
+      <p>In no event shall we be liable for any direct, indirect, incidental, special, consequential, or punitive damages
+        (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of
+        the use or inability to use the Website, even if we have been advised of the possibility of such damage.</p>
+
+      <br>
+
+      <h4>INDEMNIFICATION</h4>
+
+      <p>You agree to indemnify and hold harmless the B1tpool Project (if official instance) or the operator of this
+        Website (if unofficial instance), its affiliates, officers, directors, employees, and agents from and against any
+        and all claims, liabilities, damages, losses, or expenses, including reasonable attorneys' fees and costs, arising
+        out of or in any way connected with your access to or use of the Website.</p>
+
+      <br>
+
+      <h4>GOVERNING LAW</h4>
+
+      <p>These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which the B1tpool
+        Project (if official instance) or the operator of this Website (if unofficial instance) is based, without regard
+        to its conflict of law provisions.</p>
+
+      <br>
+
+      <h4>CHANGES TO TERMS</h4>
+
+      <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is
+        material we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a
+        material change will be determined at our sole discretion.</p>
+
+      <br>
+
+      <h4>CONTACT US</h4>
+
+      <p>If you have any questions about these Terms, please contact us (e.g., via GitHub issues for the B1tpool project
+        if applicable).</p>
+
+      <br>
+
+    </div>
+
+  </div>
+
+  <br><br>
+
+</div>

@@ -1,0 +1,86 @@
+<div class="container-xl about-page">
+
+  <div class="intro">
+    <span style="margin-left: auto; margin-right: -20px; margin-bottom: -20px"></span>
+    <img class="logo" src="/assets/img/bit-logo.png" style="max-width: 200px; height: auto;" />
+    <div class="version">
+      <a class="d-none d-md-inline-block" title="{{ (backendInfo$ | async)?.version }}"
+        href="https://github.com/YOUR_GITHUB_USER/B1tpool/commit/{{ (backendInfo$ | async)?.gitCommit }}"
+        target="_blank">{{ (backendInfo$ | async)?.version }}</a>
+      <a class="d-md-none" title="{{ (backendInfo$ | async)?.version }}" href="https://github.com/YOUR_GITHUB_USER/B1tpool/commit/{{ (backendInfo$ | async)?.gitCommit }}"
+        target="_blank">{{ (backendInfo$ | async)?.version?.split('-')[0] }}</a>
+      <span class="d-none d-md-inline-block">|</span>
+      <a class="d-none d-md-inline-block" title="{{ packetJsonVersion }}"
+        href="https://github.com/YOUR_GITHUB_USER/B1tpool/commit/{{ frontendGitCommitHash }}"
+        target="_blank">{{ packetJsonVersion }}</a>
+      <a class="d-md-none" title="{{ packetJsonVersion }}" href="https://github.com/YOUR_GITHUB_USER/B1tpool/commit/{{ frontendGitCommitHash }}"
+        target="_blank">{{ packetJsonVersion?.split('-')[0] }}</a>
+    </div>
+  </div>
+
+  <div class="about-text">
+    <h5><ng-container i18n="about.about-the-project">Your Gateway to explore Bit's
+      </ng-container><span>&nbsp;</span><a routerLink="/"><ng-container i18n="general.mempool">Mempool</ng-container></a>!</h5>
+    <p i18n>Our mempool and blockchain explorer for the Bit community, focusing on the transaction fee market and
+      network statistics.</p>
+    <hr class="mt-3 mb-3">
+    <p>The B1tpool explorer is a fork of the mempool.space&trade; repo, an open source
+      project created by the mempool.space team. It is licensed under the MIT license.</p>
+    <p i18n>
+      This instance of B1tpool is run by an independent member of the Bit community. <!-- Or your specific entity -->
+    </p>
+    <hr class="mt-3 mb-3">
+    <h5 i18n>Software License</h5>
+    <p>
+      <a href="https://github.com/OnlyPW/B1tpool" target="_blank">B1tpool</a> is free software; you can
+      redistribute it and/or modify it under the terms of the MIT License as published by the Open Source Initiative. See
+      the full license terms for more details.<br>
+    </p>
+  </div>
+
+  <br>
+
+  <div class="copyright">
+    <div class="title">
+      Copyright &copy; 2019-2023<br>
+      The Mempool Open Source Project
+    </div>
+    <div class="title">
+      Copyright &copy; 2023<br>
+      <a href="https://b1tcore.org" target="_blank">B1T Core Project</a>
+    </div>
+    <p>
+      <a href="https://github.com/bittoshimoto/Bit">B1TPool</a> is free software; you can
+      redistribute it and/or modify it under the terms of (at your option) either:<br>
+    </p>
+    <ul>
+      <li>
+        1) the <a href="https://www.gnu.org/licenses/agpl-3.0-standalone.html">GNU Affero General Public License</a> as
+        published by the Free Software Foundation, either version 3 of the License or any later version approved by a
+        proxy statement published on &lt;https://b1tcore.org/about&gt;; or<br>
+      </li>
+      <li>
+        2) the <a href="https://www.gnu.org/licenses/gpl-3.0-standalone.html">GNU General Public License</a> as
+        published by the Free Software Foundation, either version 3 of the License or any later version approved by a
+        proxy statement published on &lt;https://b1tcore.org/about&gt;.<br>
+      </li>
+    </ul>
+    <p>
+      This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+      warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the full license terms for more details.<br>
+    </p>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://github.com/mempool/mempool/blob/master/LICENSE">Original Author License</a>
+    <a href="/3rdpartylicenses.txt">Third-party Licenses</a>
+  </div>
+
+  <br>
+</div>
+
+
+<ng-template #loadingSponsors>
+  <br>
+  <div class="spinner-border text-light"></div>
+</ng-template>

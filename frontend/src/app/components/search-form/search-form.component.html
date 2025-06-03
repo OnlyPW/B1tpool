@@ -1,0 +1,19 @@
+<form [formGroup]="searchForm" (ngSubmit)="search()" class="search-form">
+  <div class="input-group" [class.is-searching]="isSearching">
+    <div class="input-group-prepend search-icon-container">
+      <div class="input-group-text">
+        <fa-icon [icon]="['fas', 'search']" class="search-icon"></fa-icon>
+    </div>
+    </div>
+    <input autofocus (focus)="focus$.next($any($event.target).value)" (click)="click$.next($any($event.target).value)"
+           formControlName="searchText" type="text" class="form-control"
+           i18n-placeholder="search-form.searchbar-placeholder" placeholder="Your Gateway to Explore Bit">
+    <app-search-results #searchResults [hidden]="dropdownHidden" [results]="typeAhead$ | async"
+                        (selectedResult)="selectedResult($event)"></app-search-results>
+  </div>
+</form>
+
+<ng-template #searchLoading>
+  <div class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"
+    (click)="searchForm.valid && search()"></div>
+</ng-template>

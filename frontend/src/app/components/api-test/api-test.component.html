@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1tpool API Test Suite</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #f39c12;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            background: #2a2a2a;
+        }
+        .test-section h3 {
+            color: #3498db;
+            margin-top: 0;
+        }
+        .api-test {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #333;
+        }
+        .api-url {
+            font-weight: bold;
+            color: #2ecc71;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .api-url:hover {
+            color: #27ae60;
+        }
+        .status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .status.success { background: #27ae60; }
+        .status.error { background: #e74c3c; }
+        .status.pending { background: #f39c12; }
+        .response {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 3px;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .test-data {
+            background: #444;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .test-data h4 {
+            color: #f39c12;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 B1tpool API Test Suite</h1>
+        
+        <div class="test-data">
+            <h4>📋 Testdaten</h4>
+            <strong>Adresse:</strong> BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE<br>
+            <strong>Transaktion:</strong> 046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3<br>
+            <strong>Block Hash:</strong> ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57
+        </div>
+
+        <div class="controls">
+            <button onclick="testAllApis()">🔍 Alle APIs testen</button>
+            <button onclick="clearResults()">🧹 Ergebnisse löschen</button>
+            <button onclick="expandAll()">📖 Alle erweitern</button>
+            <button onclick="collapseAll()">📚 Alle zusammenklappen</button>
+        </div>
+
+        <!-- Mempool APIs -->
+        <div class="test-section">
+            <h3>💾 Mempool APIs</h3>
+            <div class="api-test" data-url="/api/v1/mempool">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mempool</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mempool/txids">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mempool/txids</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mempool/recent">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mempool/recent</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Transaction APIs -->
+        <div class="test-section">
+            <h3>💸 Transaktions APIs</h3>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/hex">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/hex</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/status">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/status</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/outspends">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/outspends</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/rbf">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/rbf</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Block APIs -->
+        <div class="test-section">
+            <h3>🧱 Block APIs</h3>
+            <div class="api-test" data-url="/api/v1/blocks/tip/height">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks/tip/height</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/blocks/tip/hash">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks/tip/hash</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/header">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/header</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/txids">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/txids</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/txs">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/txs</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/blocks">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Address APIs -->
+        <div class="test-section">
+            <h3>🏠 Adressen APIs</h3>
+            <div class="api-test" data-url="/api/v1/address/BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE">
+                <span class="api-url" onclick="testApi(this)">/api/v1/address/{address}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/address/BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE/txs">
+                <span class="api-url" onclick="testApi(this)">/api/v1/address/{address}/txs</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/validate-address/BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE">
+                <span class="api-url" onclick="testApi(this)">/api/v1/validate-address/{address}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Fee APIs -->
+        <div class="test-section">
+            <h3>💰 Gebühren APIs</h3>
+            <div class="api-test" data-url="/api/v1/fees/recommended">
+                <span class="api-url" onclick="testApi(this)">/api/v1/fees/recommended</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/fees/mempool-blocks">
+                <span class="api-url" onclick="testApi(this)">/api/v1/fees/mempool-blocks</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Transaction APIs -->
+        <div class="test-section">
+            <h3>🔍 Erweiterte Transaktions APIs</h3>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/cached">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/cached</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/cpfp/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3">
+                <span class="api-url" onclick="testApi(this)">/api/v1/cpfp/{txId}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/transaction-times">
+                <span class="api-url" onclick="testApi(this)">/api/v1/transaction-times</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/outspends">
+                <span class="api-url" onclick="testApi(this)">/api/v1/outspends</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/replacements">
+                <span class="api-url" onclick="testApi(this)">/api/v1/replacements</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/fullrbf/replacements">
+                <span class="api-url" onclick="testApi(this)">/api/v1/fullrbf/replacements</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Block APIs -->
+        <div class="test-section">
+            <h3>🏗️ Erweiterte Block APIs</h3>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/summary">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/summary</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/audit-summary">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/audit-summary</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/raw">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/raw</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57/txs/0">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block/{hash}/txs/{index}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/blocks/1">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks/{height}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/block-height/1">
+                <span class="api-url" onclick="testApi(this)">/api/v1/block-height/{height}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/blocks-bulk/1">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks-bulk/{from}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/blocks-bulk/1/5">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blocks-bulk/{from}/{to}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Address APIs -->
+        <div class="test-section">
+            <h3>🏘️ Erweiterte Adressen APIs</h3>
+            <div class="api-test" data-url="/api/v1/address/BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE/txs/chain/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3">
+                <span class="api-url" onclick="testApi(this)">/api/v1/address/{address}/txs/chain/{txId}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/address-prefix/BP">
+                <span class="api-url" onclick="testApi(this)">/api/v1/address-prefix/{prefix}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Fee APIs -->
+        <div class="test-section">
+            <h3>💸 Erweiterte Gebühren APIs</h3>
+            <div class="api-test" data-url="/api/v1/fees/recommended-lnd">
+                <span class="api-url" onclick="testApi(this)">/api/v1/fees/recommended-lnd</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Community APIs -->
+        <div class="test-section">
+            <h3>👥 Community APIs</h3>
+            <div class="api-test" data-url="/api/v1/donations">
+                <span class="api-url" onclick="testApi(this)">/api/v1/donations</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/contributors">
+                <span class="api-url" onclick="testApi(this)">/api/v1/contributors</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/translators">
+                <span class="api-url" onclick="testApi(this)">/api/v1/translators</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Mining APIs -->
+        <div class="test-section">
+            <h3>⛏️ Mining APIs</h3>
+            <div class="api-test" data-url="/api/v1/mining/pools/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/pools/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/hashrate/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/hashrate/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/hashrate/pools/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/hashrate/pools/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/difficulty-adjustments">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/difficulty-adjustments</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/difficulty-adjustments/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/difficulty-adjustments/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/reward-stats/144">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/reward-stats/{blockCount}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/fees/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/fees/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/rewards/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/rewards/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/fee-rates/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/fee-rates/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/sizes-weights/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/sizes-weights/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/predictions/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/predictions/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/audit/scores">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/audit/scores</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/audit/scores/1">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/audit/scores/{height}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/audit/score/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/audit/score/{hash}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/audit/ceb641c92b5793e2e107cf8aad5baaf0822c2636824eb229cc243cd3eb9ffd57">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/audit/{hash}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/blocks/timestamp/1640995200">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/blocks/timestamp/{timestamp}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/historical-price">
+                <span class="api-url" onclick="testApi(this)">/api/v1/historical-price</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Statistics APIs -->
+        <div class="test-section">
+            <h3>📊 Statistik APIs</h3>
+            <div class="api-test" data-url="/api/v1/statistics/2h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/2h</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/24h</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/1w">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/1w</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/1m">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/1m</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/3m">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/3m</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/6m">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/6m</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/statistics/1y">
+                <span class="api-url" onclick="testApi(this)">/api/v1/statistics/1y</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Lightning APIs -->
+        <div class="test-section">
+            <h3>⚡ Lightning APIs</h3>
+            <div class="api-test" data-url="/api/v1/lightning/search?searchText=bit">
+                <span class="api-url" onclick="testApi(this)">/api/v1/lightning/search</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/lightning/statistics/latest">
+                <span class="api-url" onclick="testApi(this)">/api/v1/lightning/statistics/latest</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/lightning/statistics/24h">
+                <span class="api-url" onclick="testApi(this)">/api/v1/lightning/statistics/{interval}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- System APIs -->
+        <div class="test-section">
+            <h3>⚙️ System APIs</h3>
+            <div class="api-test" data-url="/api/v1/backend-info">
+                <span class="api-url" onclick="testApi(this)">/api/v1/backend-info</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/init-data">
+                <span class="api-url" onclick="testApi(this)">/api/v1/init-data</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/difficulty-adjustment">
+                <span class="api-url" onclick="testApi(this)">/api/v1/difficulty-adjustment</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Bit Network Specific APIs -->
+        <div class="test-section">
+            <h3>🎯 Bit Netzwerk APIs</h3>
+            <div class="api-test" data-url="/api/v1/blockchain/info">
+                <span class="api-url" onclick="testApi(this)">/api/v1/blockchain/info</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/network/info">
+                <span class="api-url" onclick="testApi(this)">/api/v1/network/info</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/network/peer-info">
+                <span class="api-url" onclick="testApi(this)">/api/v1/network/peer-info</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/chain/stats">
+                <span class="api-url" onclick="testApi(this)">/api/v1/chain/stats</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mempoolinfo">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mempoolinfo</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/pending">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/pending</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/network/hashrate">
+                <span class="api-url" onclick="testApi(this)">/api/v1/network/hashrate</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Additional Transaction APIs -->
+        <div class="test-section">
+            <h3>💳 Erweiterte Transaktions APIs</h3>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/merkleblock-proof">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/merkleblock-proof</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/tx/046719d5aa3fef23dd506bc965204b9dc88fe002e0314b3c411f6a8fa37066d3/merkle-proof">
+                <span class="api-url" onclick="testApi(this)">/api/v1/tx/{txId}/merkle-proof</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/broadcast-tx">
+                <span class="api-url" onclick="testApiPost(this)" data-method="POST">/api/v1/broadcast-tx</span>
+                <span class="status pending">Bereit (POST)</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Additional Mining APIs -->
+        <div class="test-section">
+            <h3>⛏️ Zusätzliche Mining APIs</h3>
+            <div class="api-test" data-url="/api/v1/mining/pool/unknown">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/pool/{slug}</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/pool/unknown/hashrate">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/pool/{slug}/hashrate</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/mining/pool/unknown/blocks">
+                <span class="api-url" onclick="testApi(this)">/api/v1/mining/pool/{slug}/blocks</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+        </div>
+
+        <!-- Websocket APIs -->
+        <div class="test-section">
+            <h3>🔌 WebSocket APIs (Info)</h3>
+            <div class="api-test" data-url="/api/v1/ws/info">
+                <span class="api-url" onclick="testApi(this)">/api/v1/ws/info</span>
+                <span class="status pending">Bereit</span>
+                <div class="response"></div>
+            </div>
+            <div class="api-test" data-url="/api/v1/ws-proxy">
+                <span class="api-url" onclick="testWebSocket(this)" data-method="WS">WebSocket Test</span>
+                <span class="status pending">Bereit (WS)</span>
+                <div class="response"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function testApi(element) {
+            const apiTest = element.closest('.api-test');
+            const url = apiTest.dataset.url;
+            const statusElement = apiTest.querySelector('.status');
+            const responseElement = apiTest.querySelector('.response');
+            
+            statusElement.textContent = 'Loading...';
+            statusElement.className = 'status pending';
+            responseElement.style.display = 'none';
+            
+            try {
+                const response = await fetch(url);
+                const responseTime = performance.now();
+                
+                if (response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    let data;
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        data = await response.json();
+                        responseElement.textContent = JSON.stringify(data, null, 2);
+                    } else {
+                        data = await response.text();
+                        responseElement.textContent = data;
+                    }
+                    
+                    statusElement.textContent = `✅ ${response.status} (${Math.round(responseTime)}ms)`;
+                    statusElement.className = 'status success';
+                } else {
+                    const errorText = await response.text();
+                    responseElement.textContent = `Error ${response.status}: ${errorText}`;
+                    statusElement.textContent = `❌ ${response.status}`;
+                    statusElement.className = 'status error';
+                }
+                
+                responseElement.style.display = 'block';
+                
+            } catch (error) {
+                statusElement.textContent = '❌ Network Error';
+                statusElement.className = 'status error';
+                responseElement.textContent = error.message;
+                responseElement.style.display = 'block';
+            }
+        }
+        
+        async function testAllApis() {
+            const apiTests = document.querySelectorAll('.api-test');
+            for (const test of apiTests) {
+                const urlElement = test.querySelector('.api-url');
+                await testApi(urlElement);
+                await new Promise(resolve => setTimeout(resolve, 100)); // Kurze Pause zwischen Tests
+            }
+        }
+        
+        function clearResults() {
+            const statusElements = document.querySelectorAll('.status');
+            const responseElements = document.querySelectorAll('.response');
+            
+            statusElements.forEach(el => {
+                el.textContent = 'Bereit';
+                el.className = 'status pending';
+            });
+            
+            responseElements.forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+        }
+        
+        function expandAll() {
+            const responseElements = document.querySelectorAll('.response');
+            responseElements.forEach(el => {
+                if (el.textContent.trim()) {
+                    el.style.display = 'block';
+                }
+            });
+        }
+        
+        function collapseAll() {
+            const responseElements = document.querySelectorAll('.response');
+            responseElements.forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+
+        // Zusätzliche Funktionen für POST und WebSocket Tests
+        async function testApiPost(element) {
+            const apiTest = element.closest('.api-test');
+            const url = apiTest.dataset.url;
+            const statusElement = apiTest.querySelector('.status');
+            const responseElement = apiTest.querySelector('.response');
+            
+            statusElement.textContent = 'POST nicht implementiert';
+            statusElement.className = 'status pending';
+            responseElement.textContent = 'POST-Tests erfordern spezielle Implementierung mit Request-Body';
+            responseElement.style.display = 'block';
+        }
+
+        async function testWebSocket(element) {
+            const apiTest = element.closest('.api-test');
+            const statusElement = apiTest.querySelector('.status');
+            const responseElement = apiTest.querySelector('.response');
+            
+            statusElement.textContent = 'WebSocket nicht implementiert';
+            statusElement.className = 'status pending';
+            responseElement.textContent = 'WebSocket-Tests erfordern spezielle Implementierung';
+            responseElement.style.display = 'block';
+        }
+    </script>
+</body>
+</html> 
