@@ -1,4 +1,4 @@
-# B1tpool
+# B1tpool.org
 
 <br>
 DONATION B1t:<br>BPfYrjLdM4X6LcrZJp2g2x88ah98AwH7LE
